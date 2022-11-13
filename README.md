@@ -9,7 +9,7 @@ __WARNING:__ all data on the disk will be destroyed.
 
 * Login into Hetzner cloud server console.
 * Choose "rescue" menu.
-* Click "enable rescue and power cycle",  add SSH key to the rescue console, set it OS to linux64, then press mount rescue and power cycle" button.
+* Click "enable rescue and power cycle",  add SSH key (must be RSA key format, not ECDSA!) to the rescue console, set it OS to linux64, then press mount rescue and power cycle" button.
 * connect via SSH to rescue console, and run the script from this repo.
 
 Debian 11 minimal setup with SSH server
@@ -47,7 +47,7 @@ screen -S zfs
 To detach from screen console, hit Ctrl-d then a
 To reattach, type `screen -r zfs`
 
-Upon succesfull run, the script will reboot system, and you will be able to login into it, using the same SSH key you have used within rescue console
+Upon succesful run, the script will reboot system, and you will be able to login into it, using the same SSH key you have used within rescue console
 
 Please note that the drives you intend to format can not be in use,
 you can execute `mdadm --stop --scan` before running the script to halt default software raid operations.
