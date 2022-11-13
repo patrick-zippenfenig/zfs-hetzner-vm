@@ -2,7 +2,7 @@
 
 [![shellcheck](https://github.com/terem42/zfs-hetzner-vm/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/terem42/zfs-hetzner-vm/actions/workflows/shellcheck.yml)
 
-Scripts to install Debian 11, 10 or Ubuntu 20, 18 with ZFS root on Hetzner root servers (virtual and dedicated).<br/>
+Scripts to install Debian 11, 10 or Ubuntu 22, 20, 18 with ZFS root on Hetzner root servers (virtual and dedicated).<br/>
 __WARNING:__ all data on the disk will be destroyed.
 
 ## How to use:
@@ -11,6 +11,12 @@ __WARNING:__ all data on the disk will be destroyed.
 * Choose "rescue" menu.
 * Click "enable rescue and power cycle",  add SSH key (must be RSA key format, not ECDSA!) to the rescue console, set it OS to linux64, then press mount rescue and power cycle" button.
 * connect via SSH to rescue console, and run the script from this repo.
+
+Ubuntu 22 LTS minimal setup with SSH server
+
+````bash
+wget -qO- https://raw.githubusercontent.com/terem42/zfs-hetzner-vm/master/hetzner-ubuntu22-zfs-setup.sh | bash -
+````
 
 Debian 11 minimal setup with SSH server
 
