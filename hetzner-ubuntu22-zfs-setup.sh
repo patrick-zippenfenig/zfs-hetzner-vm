@@ -40,7 +40,7 @@ c_deb_security_repo=http://mirror.hetzner.de/ubuntu/security
 
 c_default_zfs_arc_max_mb=250
 c_default_bpool_tweaks="-o ashift=12 -O compression=lz4"
-c_default_rpool_tweaks="-o ashift=12 -O acltype=posixacl -O compression=zstd-9 -O dnodesize=auto -O relatime=on -O xattr=sa -O normalization=formD"
+c_default_rpool_tweaks="-o ashift=12 -O acltype=posixacl -O compression=lz4 -O dnodesize=auto -O relatime=off -O xattr=sa -O normalization=formD"
 c_default_hostname=terem
 c_zfs_mount_dir=/mnt
 c_log_dir=$(dirname "$(mktemp)")/zfs-hetzner-vm
@@ -202,7 +202,7 @@ function select_disks {
       menu_entries_option+=("$disk_id" "($block_device_basename)" "$disk_selection_status")
     done
 
-    local dialog_message="Select the ZFS devices (multiple selections will be in mirror).
+    local dialog_message="Select the ZFS devices (multiple selections will be in raidz1).
 
 Devices with mounted partitions, cdroms, and removable devices are not displayed!
 "
@@ -501,9 +501,11 @@ echo "======= create zfs pools and datasets =========="
   done
 
   if [[ ${#v_selected_disks[@]} -gt 1 ]]; then
-    pools_mirror_option=mirror
+    pools_mirror_option=raidz
+    bpool_mirror_option=mirror
   else
     pools_mirror_option=
+    bpool_mirror_option=
   fi
 
 # shellcheck disable=SC2086
@@ -511,7 +513,7 @@ zpool create \
   $v_bpool_tweaks -O canmount=off -O devices=off \
   -o cachefile=/etc/zpool.cache \
   -O mountpoint=/boot -R $c_zfs_mount_dir -f \
-  $v_bpool_name $pools_mirror_option "${bpool_disks_partitions[@]}"
+  $v_bpool_name $bpool_mirror_option "${bpool_disks_partitions[@]}"
 
 # shellcheck disable=SC2086
 echo -n "$v_passphrase" | zpool create \
